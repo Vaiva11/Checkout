@@ -11,12 +11,30 @@ export const LargeTitle = styled.p<SpaceProps>`
   ${space}
 `;
 
+export const MediumTitle = styled.p<SpaceProps>`
+  color: ${({ theme }) => theme.colors.darkGray};
+  font-size: ${({ theme }) => theme.fontSizes.mdTitle};
+  line-height: ${({ theme }) => theme.lineHeights.lg};
+  margin: 0;
+  font-weight: 700;
+  ${space}
+`;
+
 export const XsBody = styled.p<SpaceProps>`
   color: ${({ theme }) => theme.colors.lightGray};
   font-size: ${({ theme }) => theme.fontSizes.xsBody};
   line-height: ${({ theme }) => theme.lineHeights.sm};
   margin: 0;
   font-weight: 400;
+  ${space}
+`;
+
+export const XsBodyDark = styled.p<SpaceProps>`
+  color: ${({ theme }) => theme.colors.darkGray};
+  font-size: ${({ theme }) => theme.fontSizes.xsBody};
+  line-height: ${({ theme }) => theme.lineHeights.sm};
+  margin: 0;
+  font-weight: 700;
   ${space}
 `;
 
@@ -32,7 +50,3 @@ export const SmBody = styled.p<
   ${fontWeight}
   ${space}
 `;
-
-// @media ${device.mobile} {
-//     font-size: ${({ theme }) => theme.fontSizes.sm};
-//   }

@@ -326,7 +326,7 @@ export const CheckoutForm = () => (
                   <DinersClub />
                 </PaymentCardWrapper>
                 <PaymentCardWrapper>
-                  <SmBody fontWeight="500">+4</SmBody>
+                  <SmBody fontWeight={500}>+4</SmBody>
                 </PaymentCardWrapper>
               </PaymentCards>
             </PaymentMethod>

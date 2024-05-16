@@ -2,15 +2,13 @@ import styled from "styled-components";
 import { Header } from "../components/Header";
 import { CheckoutForm } from "../components/CheckoutForm";
 import { PageWrapper } from "../components/PageWrapper";
+import { OrderSummary } from "../components/OrderSummary";
 
 const CheckoutWrapper = styled.div`
   width: 1040px;
   display: flex;
   justify-content: space-between;
-`;
-
-const RightSection = styled.div`
-  background: lightblue;
+  color: ${({ theme }) => `${theme.colors.darkGray}`};
 `;
 
 export const Checkout = () => (
@@ -19,7 +17,7 @@ export const Checkout = () => (
     <PageWrapper>
       <CheckoutWrapper>
         <CheckoutForm />
-        <RightSection>Right</RightSection>
+        <OrderSummary />
       </CheckoutWrapper>
     </PageWrapper>
   </>
