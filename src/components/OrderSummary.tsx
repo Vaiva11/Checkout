@@ -88,7 +88,7 @@ const WhyChooseTitle = styled.div`
 
 const Section = styled.div`
   display: flex;
-  gap: 16px;
+  gap: ${({ theme }) => `${theme.spacings.lg}`};
 `;
 
 export const OrderSummary = () => (

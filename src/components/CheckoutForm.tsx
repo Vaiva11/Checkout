@@ -1,6 +1,9 @@
 import styled from "styled-components";
-import { Formik, Field, Form } from "formik";
+import React, { useState } from "react";
+import { Formik, Field, Form, useFormikContext } from "formik";
 import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import { MaskedInput, createDefaultMaskGenerator } from "react-hook-mask";
 import * as Yup from "yup";
 import { LargeTitle, XsBody, SmBody } from "../components/Typography";
 import { Lock } from "../images/Lock";
@@ -8,6 +11,7 @@ import { Visa } from "../images/paymentMehtods/Visa";
 import { Mastercard } from "../images/paymentMehtods/Mastercard";
 import { Amex } from "../images/paymentMehtods/Amex";
 import { DinersClub } from "../images/paymentMehtods/DinersClub";
+import { ArrowDown } from "../images/ArrowDown";
 
 const LeftSection = styled.div`
   margin-right: ${({ theme }) => `${theme.spacings.size3}`};
@@ -24,21 +28,9 @@ const Section = styled.div`
   padding-top: ${({ theme }) => `${theme.spacings.size2}`};
 `;
 
-const InputStyled = styled.div`
-  padding-top: ${({ theme }) => `${theme.spacings.lg}`};
-  width: 100%;
-  input {
-    border: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
-    border-radius: 6px;
-    width: -webkit-fill-available;
-    padding: ${({ theme }) => `${theme.spacings.lg}`};
-    font-size: ${({ theme }) => `${theme.fontSizes.smBody}`};
-    line-height: ${({ theme }) => `${theme.lineHeights.md}`};
-  }
-`;
-
 const Input = styled.div`
   padding-top: ${({ theme }) => `${theme.spacings.lg}`};
+  position: relative;
   width: 100%;
 
   & .MuiTextField-root {
@@ -59,13 +51,12 @@ const Input = styled.div`
     border-radius: 6px;
 
     input {
-      padding: 16px;
+      padding: ${({ theme }) => `${theme.spacings.lg}`};
     }
 
     &::before,
     &::after {
       border-bottom: none !important;
-      font-size: 10px;
     }
 
     &:hover {
@@ -74,7 +65,22 @@ const Input = styled.div`
 
     &.Mui-focused {
       background-color: white;
+      input {
+        padding-bottom: 8px;
+        height: 28px;
+      }
+      svg {
+        transition: transform 0.3s ease;
+        transform: rotate(180deg);
+      }
     }
+    &.typed input {
+      padding-bottom: 8px;
+    }
+  }
+
+  &.Mui-focused {
+    background-color: white !important; // !! Add background-color to stay white when focused !!
   }
 
   & .MuiInputLabel-root {
@@ -156,16 +162,37 @@ const PaymentCardWrapper = styled.div`
   border-radius: 3px;
 `;
 
+const ArrowIconWrapper = styled.div`
+  margin-right: ${({ theme }) => `${theme.spacings.lg}`};
+`;
+
+const Error = styled.div`
+  color: red;
+  font-size: ${({ theme }) => `${theme.fontSizes.xsBody}`};
+  margin-top: 4px;
+`;
+
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email is not valid").required("Required"),
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
+  firstName: Yup.string()
+    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
+    .required("Required"),
+  lastName: Yup.string()
+    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
+    .required("Required"),
   address: Yup.string().required("Required"),
-  city: Yup.string().required("Required"),
+  city: Yup.string()
+    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
+    .required("Required"),
   stateProvince: Yup.string(),
-  zip: Yup.string().required("Required"),
+  zip: Yup.string()
+    .matches(/^\d{5}$|^[A-Za-z]{2}-\d{5}$/, "Invalid postal code")
+    .required("Required"),
   country: Yup.string().required("Required"),
-  cardNumber: Yup.string().required("Required"),
+  cardNumber: Yup.string()
+    .matches(/^\d+$/, "Credit card number must contain only digits")
+    .length(16, "Credit card number must be 16 digits long")
+    .required("Required"),
   expiration: Yup.string().required("Required"),
   securityCode: Yup.string().required("Required"),
   nameOnCard: Yup.string().required("Required"),
@@ -186,6 +213,81 @@ type UserInfoType = {
   nameOnCard: string;
 };
 
+const states = [
+  { value: "NY", label: "New York" },
+  { value: "CA", label: "California" },
+  { value: "TX", label: "Texas" },
+];
+
+const countries = [
+  { value: "UnitedStates", label: "United States" },
+  { value: "CA", label: "California" },
+  { value: "TX", label: "Texas" },
+];
+
+const ExpirationDateInput = ({ name, label }: any) => {
+  const { values, setFieldValue } = useFormikContext();
+  //@ts-ignore
+  const [formattedValue, setFormattedValue] = useState(values[name]);
+
+  const handleInputChange = (event: any) => {
+    const inputValue = event.target.value;
+    let formattedInputValue = inputValue.replace(/\D/g, ""); // Remove non-digit characters
+    if (formattedInputValue.length > 2) {
+      // Insert "/" after the second digit
+      formattedInputValue =
+        formattedInputValue.slice(0, 2) + "/" + formattedInputValue.slice(2);
+    }
+    setFormattedValue(formattedInputValue);
+    setFieldValue(name, formattedInputValue); // Update formik field value
+  };
+
+  return (
+    <TextField
+      name={name}
+      value={formattedValue}
+      onChange={handleInputChange}
+      variant="filled"
+      id={name}
+      label={label}
+    />
+  );
+};
+
+const formatCreditCardNumber = (inputValue: any) => {
+  // Remove non-digit characters
+  const numericValue = inputValue.replace(/\D/g, "");
+  // Format the number in groups of 4 digits separated by spaces
+  const formattedValue = numericValue.replace(/(\d{4})/g, "$1 ").trim();
+  return formattedValue;
+};
+
+const CreditCardInput = ({ name, label }: any) => {
+  const { values, setFieldValue } = useFormikContext();
+  const [formattedValue, setFormattedValue] = useState(
+    //@ts-ignore
+    formatCreditCardNumber(values[name])
+  );
+
+  const handleInputChange = (event: any) => {
+    const inputValue = event.target.value;
+    const formattedInputValue = formatCreditCardNumber(inputValue);
+    setFormattedValue(formattedInputValue);
+    setFieldValue(name, inputValue); // Update formik field value
+  };
+
+  return (
+    <TextField
+      name={name}
+      value={formattedValue}
+      onChange={handleInputChange}
+      variant="filled"
+      id={name}
+      label={label}
+    />
+  );
+};
+
 export const CheckoutForm = () => (
   <LeftSection>
     <Formik
@@ -197,7 +299,7 @@ export const CheckoutForm = () => (
         city: "",
         stateProvince: "",
         zip: "",
-        country: "United States",
+        country: "UnitedStates",
         cardNumber: "",
         expiration: "",
         securityCode: "",
@@ -221,7 +323,7 @@ export const CheckoutForm = () => (
                 name="email"
                 label="Email Address"
               />
-              {errors.email && touched.email && <div>{errors.email}</div>}
+              {errors.email && touched.email && <Error>{errors.email}</Error>}
             </Input>
           </Section>
           <Section>
@@ -235,9 +337,6 @@ export const CheckoutForm = () => (
                   name="firstName"
                   label="First Name"
                 />
-                {errors.firstName && touched.firstName && (
-                  <div>{errors.firstName}</div>
-                )}
               </Input>
               <Input>
                 <Field
@@ -248,7 +347,7 @@ export const CheckoutForm = () => (
                   label="Last Name"
                 />
                 {errors.lastName && touched.lastName && (
-                  <div>{errors.lastName}</div>
+                  <Error>{errors.lastName}</Error>
                 )}
               </Input>
             </InputRow>
@@ -260,7 +359,9 @@ export const CheckoutForm = () => (
                 name="address"
                 label="Address"
               />
-              {errors.address && touched.address && <div>{errors.address}</div>}
+              {errors.address && touched.address && (
+                <Error>{errors.address}</Error>
+              )}
             </Input>
             <InputRow>
               <Input>
@@ -271,18 +372,33 @@ export const CheckoutForm = () => (
                   name="city"
                   label="City"
                 />
-                {errors.city && touched.city && <div>{errors.city}</div>}
+                {errors.city && touched.city && <Error>{errors.city}</Error>}
               </Input>
               <Input>
                 <Field
                   as={TextField}
+                  select
                   variant="filled"
                   id="stateProvince"
                   name="stateProvince"
                   label="State / Province"
-                />
+                  fullWidth
+                  SelectProps={{
+                    IconComponent: () => (
+                      <ArrowIconWrapper>
+                        <ArrowDown />
+                      </ArrowIconWrapper>
+                    ),
+                  }}
+                >
+                  {states.map((state) => (
+                    <MenuItem key={state.value} value={state.value}>
+                      {state.label}
+                    </MenuItem>
+                  ))}
+                </Field>
                 {errors.stateProvince && touched.stateProvince && (
-                  <div>{errors.stateProvince}</div>
+                  <Error>{errors.stateProvince}</Error>
                 )}
               </Input>
               <Input>
@@ -293,18 +409,35 @@ export const CheckoutForm = () => (
                   name="zip"
                   label="ZIP / Postal Code"
                 />
-                {errors.zip && touched.zip && <div>{errors.zip}</div>}
+                {errors.zip && touched.zip && <Error>{errors.zip}</Error>}
               </Input>
             </InputRow>
             <Input>
               <Field
                 as={TextField}
+                select
                 variant="filled"
                 id="country"
                 name="country"
                 label="Country"
-              />
-              {errors.country && touched.country && <div>{errors.country}</div>}
+                fullWidth
+                SelectProps={{
+                  IconComponent: () => (
+                    <ArrowIconWrapper>
+                      <ArrowDown />
+                    </ArrowIconWrapper>
+                  ),
+                }}
+              >
+                {countries.map((state) => (
+                  <MenuItem key={state.value} value={state.value}>
+                    {state.label}
+                  </MenuItem>
+                ))}
+              </Field>
+              {errors.country && touched.country && (
+                <Error>{errors.country}</Error>
+              )}
             </Input>
           </Section>
           <Section>
@@ -332,28 +465,19 @@ export const CheckoutForm = () => (
             </PaymentMethod>
             <GrayInputWrapper>
               <Input>
-                <Field
-                  as={TextField}
-                  variant="filled"
-                  id="cardNumber"
-                  name="cardNumber"
-                  label="Card Number"
-                />
+                <CreditCardInput name="creditCard" label="Credit card" />
                 {errors.cardNumber && touched.cardNumber && (
-                  <div>{errors.cardNumber}</div>
+                  <Error>{errors.cardNumber}</Error>
                 )}
               </Input>
               <InputRow>
                 <Input>
-                  <Field
-                    as={TextField}
-                    variant="filled"
-                    id="expiration"
+                  <ExpirationDateInput
                     name="expiration"
                     label="Expiration (MM/YY)"
                   />
                   {errors.expiration && touched.expiration && (
-                    <div>{errors.expiration}</div>
+                    <Error>{errors.expiration}</Error>
                   )}
                 </Input>
                 <Input>
@@ -365,7 +489,7 @@ export const CheckoutForm = () => (
                     label="Security code"
                   />
                   {errors.securityCode && touched.securityCode && (
-                    <div>{errors.securityCode}</div>
+                    <Error>{errors.securityCode}</Error>
                   )}
                 </Input>
               </InputRow>
@@ -375,10 +499,10 @@ export const CheckoutForm = () => (
                   variant="filled"
                   id="nameOnCard"
                   name="nameOnCard"
-                  label="Name on card"
+                  label="name On Card"
                 />
                 {errors.nameOnCard && touched.nameOnCard && (
-                  <div>{errors.nameOnCard}</div>
+                  <Error>{errors.nameOnCard}</Error>
                 )}
               </Input>
             </GrayInputWrapper>
@@ -393,3 +517,26 @@ export const CheckoutForm = () => (
     </Formik>
   </LeftSection>
 );
+
+{
+  /* <Field
+name="cardNumber"
+render={({ field }: any) => (
+  <TextField
+    {...field}
+    variant="filled"
+    id="cardNumber"
+    label="Card Number"
+    InputProps={{
+      inputComponent: () => (
+        <MaskedInput
+          maskGenerator={maskGenerator}
+          value={field.value}
+          onChange={field.onChange}
+        />
+      ),
+    }}
+  />
+)}
+/> */
+}
