@@ -1,12 +1,26 @@
 import styled from "styled-components";
+import { Header } from "../components/Header";
+import { CheckoutForm } from "../components/CheckoutForm";
+import { PageWrapper } from "../components/PageWrapper";
 
-const Wrapper = styled.div`
-  background: ${({ theme }) => theme.colors.lightGray};
-  padding: ${({ theme }) => `${theme.spacings.xl}`};
+const CheckoutWrapper = styled.div`
+  width: 1040px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const RightSection = styled.div`
+  background: lightblue;
 `;
 
 export const Checkout = () => (
-  <Wrapper>
-    <h2>Checkout</h2>
-  </Wrapper>
+  <>
+    <Header />
+    <PageWrapper>
+      <CheckoutWrapper>
+        <CheckoutForm />
+        <RightSection>Right</RightSection>
+      </CheckoutWrapper>
+    </PageWrapper>
+  </>
 );
