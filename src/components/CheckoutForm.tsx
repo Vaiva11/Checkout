@@ -43,7 +43,7 @@ const Section = styled.div`
 const InputRow = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  gap: ${({ theme }) => theme.spacings.md};
 `;
 
 const SubmitButton = styled.button`
@@ -52,7 +52,7 @@ const SubmitButton = styled.button`
   padding: ${({ theme }) => `${theme.spacings.lg} ${theme.spacings.size2}`};
   color: ${({ theme }) => `${theme.colors.white}`};
   text-transform: uppercase;
-  border-radius: 4px;
+  border-radius: ${({ theme }) => theme.spacings.xs};
   border: none;
   margin-top: ${({ theme }) => `${theme.spacings.lg}`};
   font-size: ${({ theme }) => theme.fontSizes.mdTitle};
@@ -82,7 +82,7 @@ const DisclaimerWrapper = styled.div`
 
 const GrayInputWrapper = styled.div`
   background: ${({ theme }) => `${theme.colors.bgLightGray}`};
-  padding: 12px;
+  padding: ${({ theme }) => theme.spacings.md};
   border-left: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
   border-right: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
   border-bottom: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
@@ -96,7 +96,7 @@ const ArrowIconWrapper = styled.div`
 const Error = styled.div`
   color: ${({ theme }) => `${theme.colors.red}`};
   font-size: ${({ theme }) => `${theme.fontSizes.xsBody}`};
-  margin-top: 4px;
+  margin-top: ${({ theme }) => theme.spacings.xs};
 `;
 
 type UserInfoType = {

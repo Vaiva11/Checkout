@@ -11,20 +11,20 @@ export const StyledInput = styled.div<SpaceProps>`
   }
 
   label {
-    font-size: 14px;
-    left: 4px;
-    line-height: 20px;
+    font-size: ${({ theme }) => theme.fontSizes.smBody};
+    left: ${({ theme }) => theme.spacings.xs};
+    line-height: ${({ theme }) => `${theme.lineHeights.md}`};
     font-style: normal;
     font-weight: 400;
   }
 
   .MuiFilledInput-root {
     border: solid 1px ${({ theme }) => theme.colors.borderDivider};
-    border-radius: 4px;
+    border-radius: ${({ theme }) => theme.spacings.xs};
     background-color: ${({ theme }) => theme.colors.white};
     font-size: ${({ theme }) => theme.fontSizes.smBody};
     color: ${({ theme }) => theme.colors.darkGray};
-    line-height: 20px;
+    line-height: ${({ theme }) => `${theme.lineHeights.md}`};
     border-radius: 6px;
     height: 52px !important;
 
@@ -46,7 +46,7 @@ export const StyledInput = styled.div<SpaceProps>`
     }
 
     &.typed input {
-      padding-bottom: 8px;
+      padding-bottom: ${({ theme }) => theme.spacings.sm};
     }
   }
 
@@ -63,7 +63,7 @@ export const StyledInput = styled.div<SpaceProps>`
   }
 
   && .MuiFilledInput-input {
-    padding-left: 16px;
+    padding-left: ${({ theme }) => theme.spacings.lg};
   }
 
   && .MuiFilledInput-input:focus {
