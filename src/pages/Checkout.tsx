@@ -3,7 +3,7 @@ import { Header } from "../components/Header";
 import { CheckoutForm } from "../components/CheckoutForm";
 import { OrderSummary } from "../components/OrderSummary";
 import { device } from "../theme/Device";
-import { WhyChooseSection } from "../components/OrderSummaryComponents/WhyChooseSection";
+import { WhyChooseSection } from "../components/orderSummaryComponents/WhyChooseSection";
 
 const PageWrapper = styled.div`
   width: 100%;

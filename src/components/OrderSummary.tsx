@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { SmBody } from "../components/Typography";
-import { WhyChooseSection } from "./OrderSummaryComponents/WhyChooseSection";
+import { WhyChooseSection } from "./orderSummaryComponents/WhyChooseSection";
 import { device } from "../theme/Device";
 import { ArrowDown } from "../images/ArrowDown";
-import { Price } from "./OrderSummaryComponents/Price";
+import { Price } from "./orderSummaryComponents/Price";
 
 const PageWrapperStyled = styled.div<{ isOverviewOpen: boolean }>`
   width: 100%;

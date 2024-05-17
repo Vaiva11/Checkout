@@ -1,19 +1,20 @@
 import styled from "styled-components";
-import React, { useState } from "react";
-import { Formik, Field, Form, useFormikContext } from "formik";
+import { Formik, Field, Form } from "formik";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import { MaskedInput, createDefaultMaskGenerator } from "react-hook-mask";
-import * as Yup from "yup";
 import { LargeTitle, XsBody, SmBody } from "../components/Typography";
-import { Lock } from "../images/Lock";
-import { Visa } from "../images/paymentMehtods/Visa";
-import { Mastercard } from "../images/paymentMehtods/Mastercard";
-import { Amex } from "../images/paymentMehtods/Amex";
-import { DinersClub } from "../images/paymentMehtods/DinersClub";
 import { ArrowDown } from "../images/ArrowDown";
-import { BulletPoint } from "../images/BulletPoint";
+import { Lock } from "../images/Lock";
 import { device } from "../theme/Device";
+import { ExpirationDateInput } from "./checkoutFormComponents/ExpirationDateInput";
+import { PaymentMethods } from "./checkoutFormComponents/PaymentMethods";
+import {
+  countries,
+  statesByCountry,
+} from "./checkoutFormComponents/CountriesData";
+import { CreditCardInput } from "./checkoutFormComponents/CreditCardInput";
+import { validationSchema } from "./checkoutFormComponents/ValidationSchema";
+import { StyledInput } from "./checkoutFormComponents/StyledInput";
 
 const LeftSection = styled.div`
   width: 100%;
@@ -33,70 +34,6 @@ const Section = styled.div`
     padding: ${({ theme }) => `${theme.spacings.lg}`};
     border-top: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
     border-bottom: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
-  }
-`;
-
-const Input = styled.div`
-  padding-top: ${({ theme }) => `${theme.spacings.lg}`};
-  position: relative;
-  width: 100%;
-
-  & .MuiTextField-root {
-    width: 100%;
-  }
-
-  label {
-    font-size: 14px;
-    left: 4px;
-  }
-
-  .MuiFilledInput-root {
-    border: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
-    border-radius: 4px;
-    background-color: white;
-    font-size: ${({ theme }) => `${theme.fontSizes.smBody}`};
-    color: ${({ theme }) => `${theme.colors.darkGray}`};
-    line-height: 20px;
-    border-radius: 6px;
-
-    input {
-      padding: ${({ theme }) => `${theme.spacings.lg}`};
-    }
-
-    &::before,
-    &::after {
-      border-bottom: none !important;
-    }
-
-    &:hover {
-      background-color: white;
-    }
-
-    &.Mui-focused {
-      background-color: white;
-      input {
-        padding-bottom: 8px !important;
-        height: 28px;
-      }
-      svg {
-        transition: transform 0.3s ease;
-        transform: rotate(180deg);
-      }
-    }
-    &.typed input {
-      padding-bottom: 8px;
-    }
-  }
-
-  .MuiInputLabel-root {
-    color: ${({ theme }) => `${theme.colors.lightGray}`} !important;
-    &.Mui-focused {
-      font-size: 12px;
-    }
-
-    &.MuiInputLabel-shrink {
-      font-size: 12px !important;
-    }
   }
 `;
 
@@ -147,37 +84,6 @@ const GrayInputWrapper = styled.div`
   border-radius: 0 0 6px 6px;
 `;
 
-const PaymentMethod = styled.div`
-  background: ${({ theme }) => `${theme.colors.bgActive}`};
-  border: solid 1px ${({ theme }) => `${theme.colors.borderActive}`};
-  border-radius: 6px 6px 0 0;
-  padding: ${({ theme }) => `${theme.spacings.lg}`};
-  margin-top: ${({ theme }) => `${theme.spacings.lg}`};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const PaymentCards = styled.div`
-  display: flex;
-  gap: 3px;
-`;
-
-const BulletPointWrapper = styled.div`
-  display: flex;
-  gap: ${({ theme }) => `${theme.spacings.lg}`};
-`;
-
-const PaymentCardWrapper = styled.div`
-  width: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: white;
-  border: 1px solid ${({ theme }) => `${theme.colors.borderDivider}`};
-  border-radius: 3px;
-`;
-
 const ArrowIconWrapper = styled.div`
   margin-right: ${({ theme }) => `${theme.spacings.lg}`};
 `;
@@ -187,39 +93,6 @@ const Error = styled.div`
   font-size: ${({ theme }) => `${theme.fontSizes.xsBody}`};
   margin-top: 4px;
 `;
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string().email("Email is not valid").required("Required"),
-  firstName: Yup.string()
-    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
-    .required("Required"),
-  lastName: Yup.string()
-    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
-    .required("Required"),
-  address: Yup.string().required("Required"),
-  city: Yup.string()
-    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
-    .required("Required"),
-  stateProvince: Yup.string(),
-  zip: Yup.string()
-    .matches(/^\d{5}$|^[A-Za-z]{2}-\d{5}$/, "Invalid postal code")
-    .required("Required"),
-  country: Yup.string().required("Required"),
-  cardNumber: Yup.string()
-    .min(19, "Credit card must at least 16 characters")
-    .required("Required"),
-  expiration: Yup.string()
-    .min(5, "Expiration must at least 4 characters")
-    .required("Required"),
-  securityCode: Yup.string()
-    .matches(
-      /^[0-9a-zA-Z]*$/,
-      "Security code must contain only digits and letters"
-    )
-    .min(3, "Security code must at least 4 characters")
-    .required("Required"),
-  nameOnCard: Yup.string().required("Required"),
-});
 
 type UserInfoType = {
   email: string;
@@ -234,97 +107,6 @@ type UserInfoType = {
   expiration: string;
   securityCode: string;
   nameOnCard: string;
-};
-
-const countries = [
-  { value: "UnitedStates", label: "United States" },
-  { value: "Canada", label: "Canada" },
-  { value: "Australia", label: "Australia" },
-  { value: "UnitedKingdom", label: "United Kingdom" },
-];
-
-const statesByCountry: any = {
-  UnitedStates: [
-    { value: "NY", label: "New York" },
-    { value: "CA", label: "California" },
-  ],
-  Canada: [
-    { value: "ON", label: "Ontario" },
-    { value: "QC", label: "Quebec" },
-  ],
-  Australia: [
-    { value: "NSW", label: "New South Wales" },
-    { value: "VIC", label: "Victoria" },
-  ],
-  UnitedKingdom: [
-    { value: "ENG", label: "England" },
-    { value: "SCT", label: "Scotland" },
-  ],
-};
-
-const ExpirationDateInput = ({ name, label }: any) => {
-  const { values, setFieldValue } = useFormikContext();
-  //@ts-ignore
-  const [formattedValue, setFormattedValue] = useState(values[name]);
-
-  const handleInputChange = (event: any) => {
-    const inputValue = event.target.value;
-    let formattedInputValue = inputValue.replace(/\D/g, "");
-    if (formattedInputValue.length > 2) {
-      formattedInputValue =
-        formattedInputValue.slice(0, 2) + "/" + formattedInputValue.slice(2);
-    }
-    setFormattedValue(formattedInputValue);
-    setFieldValue(name, formattedInputValue);
-  };
-
-  return (
-    <TextField
-      name={name}
-      value={formattedValue}
-      onChange={handleInputChange}
-      variant="filled"
-      id={name}
-      label={label}
-      inputProps={{ maxLength: 5 }}
-    />
-  );
-};
-
-const formatCreditCardNumber = (inputValue: any) => {
-  if (typeof inputValue !== "undefined" && inputValue !== null) {
-    const numericValue = inputValue.replace(/\D/g, "");
-    const formattedValue = numericValue.replace(/(\d{4})/g, "$1 ").trim();
-    return formattedValue;
-  }
-  return "";
-};
-
-const CreditCardInput = ({ name, label }: any) => {
-  const { values, setFieldValue } = useFormikContext();
-  const [formattedValue, setFormattedValue] = useState(
-    //@ts-ignore
-    formatCreditCardNumber(values[name])
-  );
-
-  const handleInputChange = (event: any) => {
-    const inputValue = event.target.value;
-    const formattedInputValue = formatCreditCardNumber(inputValue);
-    setFormattedValue(formattedInputValue);
-    setFieldValue(name, inputValue);
-  };
-
-  return (
-    <TextField
-      name={name}
-      value={formattedValue}
-      onChange={handleInputChange}
-      variant="filled"
-      id={name}
-      label={label}
-      inputProps={{ maxLength: 19 }}
-    />
-  );
 };
 
 export const CheckoutForm = () => (
@@ -346,7 +128,6 @@ export const CheckoutForm = () => (
       }}
       validationSchema={validationSchema}
       onSubmit={(values: UserInfoType) => {
-        console.log("asd");
         console.log(values);
       }}
     >
@@ -354,7 +135,7 @@ export const CheckoutForm = () => (
         <FormWrapper>
           <Section>
             <LargeTitle>Contact</LargeTitle>
-            <Input>
+            <StyledInput>
               <Field
                 as={TextField}
                 variant="filled"
@@ -363,12 +144,12 @@ export const CheckoutForm = () => (
                 label="Email Address"
               />
               {errors.email && touched.email && <Error>{errors.email}</Error>}
-            </Input>
+            </StyledInput>
           </Section>
           <Section>
             <LargeTitle>Delivery</LargeTitle>
             <InputRow>
-              <Input>
+              <StyledInput>
                 <Field
                   as={TextField}
                   variant="filled"
@@ -379,8 +160,8 @@ export const CheckoutForm = () => (
                 {errors.firstName && touched.firstName && (
                   <Error>{errors.firstName}</Error>
                 )}
-              </Input>
-              <Input>
+              </StyledInput>
+              <StyledInput>
                 <Field
                   as={TextField}
                   variant="filled"
@@ -391,9 +172,9 @@ export const CheckoutForm = () => (
                 {errors.lastName && touched.lastName && (
                   <Error>{errors.lastName}</Error>
                 )}
-              </Input>
+              </StyledInput>
             </InputRow>
-            <Input>
+            <StyledInput>
               <Field
                 as={TextField}
                 variant="filled"
@@ -404,9 +185,9 @@ export const CheckoutForm = () => (
               {errors.address && touched.address && (
                 <Error>{errors.address}</Error>
               )}
-            </Input>
+            </StyledInput>
             <InputRow>
-              <Input>
+              <StyledInput>
                 <Field
                   as={TextField}
                   variant="filled"
@@ -415,8 +196,8 @@ export const CheckoutForm = () => (
                   label="City"
                 />
                 {errors.city && touched.city && <Error>{errors.city}</Error>}
-              </Input>
-              <Input>
+              </StyledInput>
+              <StyledInput>
                 <Field
                   as={TextField}
                   select
@@ -443,8 +224,8 @@ export const CheckoutForm = () => (
                 {errors.stateProvince && touched.stateProvince && (
                   <Error>{errors.stateProvince}</Error>
                 )}
-              </Input>
-              <Input>
+              </StyledInput>
+              <StyledInput>
                 <Field
                   as={TextField}
                   variant="filled"
@@ -453,9 +234,9 @@ export const CheckoutForm = () => (
                   label="ZIP / Postal Code"
                 />
                 {errors.zip && touched.zip && <Error>{errors.zip}</Error>}
-              </Input>
+              </StyledInput>
             </InputRow>
-            <Input>
+            <StyledInput>
               <Field
                 as={TextField}
                 select
@@ -481,45 +262,23 @@ export const CheckoutForm = () => (
               {errors.country && touched.country && (
                 <Error>{errors.country}</Error>
               )}
-            </Input>
+            </StyledInput>
           </Section>
           <Section>
             <LargeTitle>Payments</LargeTitle>
             <XsBody mt={2} variant="lightGray">
               All transactions are secure and encrypted.
             </XsBody>
-            <PaymentMethod>
-              <BulletPointWrapper>
-                <BulletPoint />
-                <SmBody>Credit Card</SmBody>
-              </BulletPointWrapper>
-              <PaymentCards>
-                <PaymentCardWrapper>
-                  <Visa />
-                </PaymentCardWrapper>
-                <PaymentCardWrapper>
-                  <Mastercard />
-                </PaymentCardWrapper>
-                <PaymentCardWrapper>
-                  <Amex />
-                </PaymentCardWrapper>
-                <PaymentCardWrapper>
-                  <DinersClub />
-                </PaymentCardWrapper>
-                <PaymentCardWrapper>
-                  <SmBody fontWeight={500}>+4</SmBody>
-                </PaymentCardWrapper>
-              </PaymentCards>
-            </PaymentMethod>
+            <PaymentMethods />
             <GrayInputWrapper>
-              <Input>
-                <CreditCardInput name="creditCard" label="Credit Card" />
+              <StyledInput>
+                <CreditCardInput name="cardNumber" label="Card number" />
                 {errors.cardNumber && touched.cardNumber && (
                   <Error>{errors.cardNumber}</Error>
                 )}
-              </Input>
+              </StyledInput>
               <InputRow>
-                <Input>
+                <StyledInput>
                   <ExpirationDateInput
                     name="expiration"
                     label="Expiration (MM/YY)"
@@ -527,8 +286,8 @@ export const CheckoutForm = () => (
                   {errors.expiration && touched.expiration && (
                     <Error>{errors.expiration}</Error>
                   )}
-                </Input>
-                <Input>
+                </StyledInput>
+                <StyledInput>
                   <Field
                     as={TextField}
                     variant="filled"
@@ -539,20 +298,20 @@ export const CheckoutForm = () => (
                   {errors.securityCode && touched.securityCode && (
                     <Error>{errors.securityCode}</Error>
                   )}
-                </Input>
+                </StyledInput>
               </InputRow>
-              <Input>
+              <StyledInput>
                 <Field
                   as={TextField}
                   variant="filled"
                   id="nameOnCard"
                   name="nameOnCard"
-                  label="Name On Card"
+                  label="Name on card"
                 />
                 {errors.nameOnCard && touched.nameOnCard && (
                   <Error>{errors.nameOnCard}</Error>
                 )}
-              </Input>
+              </StyledInput>
             </GrayInputWrapper>
             <SubmitButton type="submit">complete order</SubmitButton>
             <DisclaimerWrapper>
