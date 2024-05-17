@@ -1,26 +1,26 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
 
-const PageWrapperStyled = styled.div<{ hasBottomBorder: boolean }>`
+const PageWrapperStyled = styled.div<{ hasbottomborder: boolean }>`
   width: 100%;
   position: relative;
   display: flex;
   justify-content: center;
-  ${({ hasBottomBorder, theme }) =>
-    hasBottomBorder &&
+  ${({ hasbottomborder, theme }) =>
+    hasbottomborder &&
     `border-bottom: 1px solid ${theme.colors.borderDivider};`};
 `;
 
 type PageWrapperProps = {
   children: ReactNode;
-  hasBottomBorder?: boolean;
+  hasbottomborder?: boolean;
 };
 
 export const PageWrapper: React.FC<PageWrapperProps> = ({
   children,
-  hasBottomBorder = false,
+  hasbottomborder = false,
 }) => (
-  <PageWrapperStyled hasBottomBorder={hasBottomBorder}>
+  <PageWrapperStyled hasbottomborder={hasbottomborder}>
     {children}
   </PageWrapperStyled>
 );

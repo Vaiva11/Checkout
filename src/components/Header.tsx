@@ -32,7 +32,7 @@ const ShoppingBagWrapper = styled.div`
 `;
 
 export const Header = () => (
-  <PageWrapper hasBottomBorder>
+  <PageWrapper hasbottomborder>
     <HeaderWrapper>
       <Logo />
       <ShoppingBagWrapper>

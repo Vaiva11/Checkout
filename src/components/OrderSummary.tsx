@@ -7,26 +7,26 @@ import { ArrowDown } from "../images/ArrowDown";
 import { Price } from "./orderSummaryComponents/Price";
 import useIsMobile from "../hooks/useIsMobile";
 
-const PageWrapperStyled = styled.div<{ isOverviewOpen: boolean }>`
+const PageWrapperStyled = styled.div<{ isoverviewopen: boolean }>`
   width: 100%;
   @media ${device.mobile} {
-    ${({ isOverviewOpen, theme }) =>
-      isOverviewOpen &&
+    ${({ isoverviewopen, theme }) =>
+      isoverviewopen &&
       `
-        margin-bottom: ${theme.spacings.lg}};
+        margin-bottom: ${theme.spacings.lg};
     `};
   }
 `;
 
-const Row = styled.div<{ hasBottomBorder?: boolean }>`
+const Row = styled.div<{ hasbottomborder?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: ${({ theme }) => `${theme.spacings.lg} 0`};
 
-  ${({ hasBottomBorder = false, theme }) =>
+  ${({ hasbottomborder = false, theme }) =>
     `${
-      hasBottomBorder &&
+      hasbottomborder &&
       `border-bottom: solid 1px ${theme.colors.borderDivider}`
     }`};
 
@@ -41,7 +41,7 @@ const WhyChooseWrapper = styled.div`
   }
 `;
 
-const OverviewButton = styled.div<{ isOverviewOpen: boolean }>`
+const OverviewButton = styled.div<{ isoverviewopen: boolean }>`
   @media ${device.mobile} {
     cursor: pointer;
     display: flex;
@@ -49,22 +49,22 @@ const OverviewButton = styled.div<{ isOverviewOpen: boolean }>`
     gap: ${({ theme }) => `${theme.spacings.sm}`};
     svg {
       transition: transform 0.3s ease;
-      transform: ${({ isOverviewOpen }) => isOverviewOpen && `rotate(180deg)`};
+      transform: ${({ isoverviewopen }) => isoverviewopen && `rotate(180deg)`};
     }
   }
 `;
 
 export const OrderSummary = () => {
   const isMobile = useIsMobile();
-  const [isOverviewOpen, setIsOverviewOpen] = useState(true);
+  const [isOverviewOpen, setIsoverviewopen] = useState(true);
 
   return (
-    <PageWrapperStyled isOverviewOpen={isOverviewOpen}>
+    <PageWrapperStyled isoverviewopen={isOverviewOpen}>
       {isMobile && (
-        <Row hasBottomBorder={isOverviewOpen}>
+        <Row hasbottomborder={isOverviewOpen}>
           <OverviewButton
-            onClick={() => setIsOverviewOpen(!isOverviewOpen)}
-            isOverviewOpen={isOverviewOpen}
+            onClick={() => setIsoverviewopen(!isOverviewOpen)}
+            isoverviewopen={isOverviewOpen}
           >
             <SmBody>Order overview</SmBody>
             <ArrowDown />

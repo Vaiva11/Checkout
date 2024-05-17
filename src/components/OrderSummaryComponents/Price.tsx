@@ -38,15 +38,15 @@ const Product = styled.div`
   align-items: center;
 `;
 
-const Row = styled.div<{ hasBottomBorder?: boolean }>`
+const Row = styled.div<{ hasbottomborder?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: ${({ theme }) => `${theme.spacings.lg} 0`};
 
-  ${({ hasBottomBorder = false, theme }) =>
+  ${({ hasbottomborder = false, theme }) =>
     `${
-      hasBottomBorder &&
+      hasbottomborder &&
       `border-bottom: solid 1px ${theme.colors.borderDivider}`
     }`};
 
@@ -57,7 +57,7 @@ const Row = styled.div<{ hasBottomBorder?: boolean }>`
 
 export const Price = () => (
   <PriceWrapper>
-    <Row hasBottomBorder>
+    <Row hasbottomborder>
       <Product>
         <ImageWrapper>
           <img src="/images/product.png" alt="product" />
@@ -69,11 +69,11 @@ export const Price = () => (
       </Product>
       <SmBody fontWeight={500}>$299.97</SmBody>
     </Row>
-    <Row hasBottomBorder>
+    <Row hasbottomborder>
       <SmBody>Subtotal</SmBody>
       <SmBody>$299.97</SmBody>
     </Row>
-    <Row hasBottomBorder>
+    <Row hasbottomborder>
       <MediumTitle>Total</MediumTitle>
       <MediumTitle>$299.97</MediumTitle>
     </Row>
