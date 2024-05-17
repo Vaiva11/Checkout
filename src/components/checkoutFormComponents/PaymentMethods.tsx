@@ -32,7 +32,7 @@ const PaymentCardWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: white;
+  background: ${({ theme }) => `${theme.colors.white}`};
   border: 1px solid ${({ theme }) => `${theme.colors.borderDivider}`};
   border-radius: 3px;
 `;

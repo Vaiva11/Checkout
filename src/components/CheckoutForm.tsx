@@ -27,7 +27,7 @@ const FormWrapper = styled(Form)`
 
 const Section = styled.div`
   padding-top: ${({ theme }) => `${theme.spacings.size2}`};
-  background: white;
+  background: ${({ theme }) => `${theme.colors.white}`};
 
   @media ${device.mobile} {
     margin-bottom: ${({ theme }) => `${theme.spacings.lg}`};
@@ -89,7 +89,7 @@ const ArrowIconWrapper = styled.div`
 `;
 
 const Error = styled.div`
-  color: red;
+  color: ${({ theme }) => `${theme.colors.red}`};
   font-size: ${({ theme }) => `${theme.fontSizes.xsBody}`};
   margin-top: 4px;
 `;

@@ -11,7 +11,7 @@ const ImageWrapper = styled.div`
 
 const ProductsNumber = styled.div`
   background-color: ${({ theme }) => `${theme.colors.mediumGray}`};
-  color: white;
+  color: ${({ theme }) => `${theme.colors.white}`};
   font-size: ${({ theme }) => `${theme.fontSizes.xsBody}`};
   font-weight: 700;
   border-radius: 100%;

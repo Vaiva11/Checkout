@@ -17,7 +17,7 @@ export const StyledInput = styled.div`
   .MuiFilledInput-root {
     border: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
     border-radius: 4px;
-    background-color: white;
+    background-color: ${({ theme }) => `${theme.colors.white}`};
     font-size: ${({ theme }) => `${theme.fontSizes.smBody}`};
     color: ${({ theme }) => `${theme.colors.darkGray}`};
     line-height: 20px;
@@ -33,11 +33,11 @@ export const StyledInput = styled.div`
     }
 
     &:hover {
-      background-color: white;
+      background-color: ${({ theme }) => `${theme.colors.white}`};
     }
 
     &.Mui-focused {
-      background-color: white;
+      background-color: ${({ theme }) => `${theme.colors.white}`};
       input {
         padding-bottom: 8px !important;
         height: 28px;

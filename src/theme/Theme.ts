@@ -10,6 +10,7 @@ export const Theme = {
     bgActive: "#F0F5FF",
     green: "#090",
     white: "#FFF",
+    red: "#FF0000",
   },
   spacings: {
     xs: "3px", // (card icons)
