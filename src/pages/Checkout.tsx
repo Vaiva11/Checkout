@@ -1,25 +1,46 @@
 import styled from "styled-components";
 import { Header } from "../components/Header";
 import { CheckoutForm } from "../components/CheckoutForm";
-import { PageWrapper } from "../components/PageWrapper";
 import { OrderSummary } from "../components/OrderSummary";
+import { device } from "../theme/Device";
+import { WhyChooseSection } from "../components/WhyChooseSection";
+
+const PageWrapper = styled.div`
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+`;
 
 const Grid = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 55% 45%;
+
+  @media ${device.mobile} {
+    grid-template-columns: 100%;
+  }
 `;
 
 const LeftSideWrapper = styled.div`
   padding-right: ${({ theme }) => `${theme.spacings.size3}`};
   padding-bottom: ${({ theme }) => `${theme.spacings.size1}`};
   border-right: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
+  @media ${device.mobile} {
+    order: 2;
+    padding: ${({ theme }) => `${theme.spacings.lg}`};
+    padding-top: 0;
+  }
 `;
 
 const RightSideWrapper = styled.div`
   padding-left: ${({ theme }) => `${theme.spacings.size3}`};
   padding-bottom: ${({ theme }) => `${theme.spacings.size1}`};
-  background: ${({ theme }) => `${theme.colors.bgLightGray}`};
+  background: ${({ theme }) => `${theme.colors.bgSummary}`};
+  @media ${device.mobile} {
+    order: 1;
+    padding: ${({ theme }) => `0 ${theme.spacings.lg}`};
+  }
 `;
 
 const CheckoutWrapper = styled.div`
@@ -27,16 +48,33 @@ const CheckoutWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   color: ${({ theme }) => `${theme.colors.darkGray}`};
+
+  @media ${device.mobile} {
+    background: pink;
+  }
 `;
 
-const PinkBg = styled.div`
+const GrayBg = styled.div`
   width: calc(100% - 56%);
   height: 100%;
-  background: ${({ theme }) => `${theme.colors.bgLightGray}`};
+  background: ${({ theme }) => `${theme.colors.bgSummary}`};
   position: absolute;
   top: 0;
   left: 56%;
   z-index: -1;
+
+  @media ${device.mobile} {
+    display: none;
+  }
+`;
+
+const WhyChooseWrapper = styled.div`
+  display: none;
+  @media ${device.mobile} {
+    display: block;
+    order: 3;
+    padding: ${({ theme }) => `${theme.spacings.lg}`};
+  }
 `;
 
 export const Checkout = () => (
@@ -51,9 +89,13 @@ export const Checkout = () => (
           <RightSideWrapper>
             <OrderSummary />
           </RightSideWrapper>
+          <WhyChooseWrapper>
+            {" "}
+            <WhyChooseSection />
+          </WhyChooseWrapper>
         </Grid>
       </CheckoutWrapper>
-      <PinkBg />
+      <GrayBg />
     </PageWrapper>
   </>
 );
