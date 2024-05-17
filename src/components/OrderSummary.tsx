@@ -13,7 +13,6 @@ const PageWrapperStyled = styled.div<{ isOverviewOpen: boolean }>`
     ${({ isOverviewOpen, theme }) =>
       isOverviewOpen &&
       `
-        border-bottom: solid 1px ${theme.colors.borderDivider}};
         margin-bottom: ${theme.spacings.lg}};
     `};
   }
@@ -30,6 +29,10 @@ const Row = styled.div<{ hasBottomBorder?: boolean }>`
       hasBottomBorder &&
       `border-bottom: solid 1px ${theme.colors.borderDivider}`
     }`};
+
+  @media ${device.mobile} {
+    margin: ${({ theme }) => `0 ${theme.spacings.lg}`};
+  }
 `;
 
 const WhyChooseWrapper = styled.div`
@@ -43,7 +46,7 @@ const OverviewButton = styled.div<{ isOverviewOpen: boolean }>`
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => `${theme.spacings.md}`};
+    gap: ${({ theme }) => `${theme.spacings.sm}`};
     svg {
       transition: transform 0.3s ease;
       transform: ${({ isOverviewOpen }) => isOverviewOpen && `rotate(180deg)`};
@@ -58,7 +61,7 @@ export const OrderSummary = () => {
   return (
     <PageWrapperStyled isOverviewOpen={isOverviewOpen}>
       {isMobile && (
-        <Row>
+        <Row hasBottomBorder={isOverviewOpen}>
           <OverviewButton
             onClick={() => setIsOverviewOpen(!isOverviewOpen)}
             isOverviewOpen={isOverviewOpen}

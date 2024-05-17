@@ -1,9 +1,8 @@
 const size = {
-  desktop: "1030px",
-  mobile: "770px",
+  desktop: "1040px",
+  mobile: "830px",
 };
 
 export const device = {
-  landscape_tablet: `(max-width: ${size.desktop})`,
   mobile: `(max-width: ${size.mobile})`,
 };

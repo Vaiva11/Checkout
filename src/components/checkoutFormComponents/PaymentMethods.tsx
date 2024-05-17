@@ -5,6 +5,7 @@ import { Visa } from "../../images/paymentMehtods/Visa";
 import { Mastercard } from "../../images/paymentMehtods/Mastercard";
 import { Amex } from "../../images/paymentMehtods/Amex";
 import { DinersClub } from "../../images/paymentMehtods/DinersClub";
+import { device } from "../../theme/Device";
 
 const PaymentMethodsWrapper = styled.div`
   background: ${({ theme }) => `${theme.colors.bgActive}`};
@@ -15,6 +16,10 @@ const PaymentMethodsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${device.mobile} {
+    margin-top: ${({ theme }) => `${theme.spacings.md}`};
+  }
 `;
 
 const BulletPointWrapper = styled.div`
@@ -28,7 +33,8 @@ const PaymentCards = styled.div`
 `;
 
 const PaymentCardWrapper = styled.div`
-  width: 36px;
+  width: 34px;
+  height: 22px;
   display: flex;
   justify-content: center;
   align-items: center;

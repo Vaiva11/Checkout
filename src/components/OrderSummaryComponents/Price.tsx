@@ -4,6 +4,7 @@ import { device } from "../../theme/Device";
 
 const ImageWrapper = styled.div`
   position: relative;
+  height: 64px;
   img {
     width: 64px;
   }
@@ -24,7 +25,7 @@ const ProductsNumber = styled.div`
 `;
 
 const PriceWrapper = styled.div`
-  margin-top: ${({ theme }) => `${theme.spacings.size2}`};
+  margin-top: ${({ theme }) => `${theme.spacings.lg}`};
   margin-bottom: ${({ theme }) => `${theme.spacings.size1}`};
 
   @media ${device.mobile} {
@@ -48,6 +49,10 @@ const Row = styled.div<{ hasBottomBorder?: boolean }>`
       hasBottomBorder &&
       `border-bottom: solid 1px ${theme.colors.borderDivider}`
     }`};
+
+  @media ${device.mobile} {
+    margin: ${({ theme }) => `0 ${theme.spacings.lg}`};
+  }
 `;
 
 export const Price = () => (
@@ -68,7 +73,7 @@ export const Price = () => (
       <SmBody>Subtotal</SmBody>
       <SmBody>$299.97</SmBody>
     </Row>
-    <Row>
+    <Row hasBottomBorder>
       <MediumTitle>Total</MediumTitle>
       <MediumTitle>$299.97</MediumTitle>
     </Row>

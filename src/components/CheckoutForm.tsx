@@ -43,7 +43,7 @@ const Section = styled.div`
 const InputRow = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
 `;
 
 const SubmitButton = styled.button`
@@ -61,11 +61,13 @@ const SubmitButton = styled.button`
   box-shadow: 0px 4px 10px 0px rgba(67, 40, 16, 0.24);
   letter-spacing: 1.26px;
   cursor: pointer;
+  font-family: Poppins;
 
   @media ${device.mobile} {
     padding: ${({ theme }) => `${theme.spacings.md} ${theme.spacings.size2}`};
     font-size: ${({ theme }) => theme.fontSizes.smBody};
     letter-spacing: 0.98px;
+    margin-top: ${({ theme }) => `${theme.spacings.md}`};
   }
 `;
 
@@ -120,7 +122,6 @@ export const CheckoutForm = () => {
         initialValues={FormInitialValues}
         validationSchema={validationSchema}
         onSubmit={(values: UserInfoType) => {
-          console.log(values);
           const serializedValues = JSON.stringify(values);
           localStorage.setItem("userInfo", serializedValues);
         }}
@@ -128,8 +129,8 @@ export const CheckoutForm = () => {
         {({ errors, touched, values }) => (
           <FormWrapper>
             <Section>
-              <LargeTitle>Contact</LargeTitle>
-              <StyledInput>
+              <LargeTitle pt={[2, 2, 0]}>Contact</LargeTitle>
+              <StyledInput pt={["12px", "12px", 3]}>
                 <Field
                   as={TextField}
                   variant="filled"
@@ -143,7 +144,7 @@ export const CheckoutForm = () => {
             <Section>
               <LargeTitle>Delivery</LargeTitle>
               <InputRow>
-                <StyledInput>
+                <StyledInput pt={["12px", "12px", 3]}>
                   <Field
                     as={TextField}
                     variant="filled"
@@ -155,7 +156,7 @@ export const CheckoutForm = () => {
                     <Error>{errors.firstName}</Error>
                   )}
                 </StyledInput>
-                <StyledInput>
+                <StyledInput pt={["12px", "12px", 3]}>
                   <Field
                     as={TextField}
                     variant="filled"
@@ -207,7 +208,7 @@ export const CheckoutForm = () => {
                     )}
                   </StyledInput>
                 )}
-                <StyledInput>
+                <StyledInput pt={["12px", "12px", 3]}>
                   <Field
                     as={TextField}
                     select
@@ -237,7 +238,7 @@ export const CheckoutForm = () => {
                     <Error>{errors.stateProvince}</Error>
                   )}
                 </StyledInput>
-                <StyledInput>
+                <StyledInput pt={["12px", "12px", 3]}>
                   <Field
                     as={TextField}
                     variant="filled"
@@ -248,7 +249,7 @@ export const CheckoutForm = () => {
                   {errors.zip && touched.zip && <Error>{errors.zip}</Error>}
                 </StyledInput>
               </InputRow>
-              <StyledInput>
+              <StyledInput pt={"12px"}>
                 <Field
                   as={TextField}
                   select
@@ -277,20 +278,20 @@ export const CheckoutForm = () => {
               </StyledInput>
             </Section>
             <Section>
-              <LargeTitle>Payments</LargeTitle>
+              <LargeTitle>Payment</LargeTitle>
               <XsBody mt={2} variant="lightGray">
                 All transactions are secure and encrypted.
               </XsBody>
               <PaymentMethods />
               <GrayInputWrapper>
-                <StyledInput>
+                <StyledInput pt={0}>
                   <CreditCardInput name="cardNumber" label="Card number" />
                   {errors.cardNumber && touched.cardNumber && (
                     <Error>{errors.cardNumber}</Error>
                   )}
                 </StyledInput>
                 <InputRow>
-                  <StyledInput>
+                  <StyledInput pt={"12px"}>
                     <ExpirationDateInput
                       name="expiration"
                       label="Expiration (MM/YY)"
@@ -299,7 +300,7 @@ export const CheckoutForm = () => {
                       <Error>{errors.expiration}</Error>
                     )}
                   </StyledInput>
-                  <StyledInput>
+                  <StyledInput pt={"12px"}>
                     <Field
                       as={TextField}
                       variant="filled"
@@ -312,7 +313,7 @@ export const CheckoutForm = () => {
                     )}
                   </StyledInput>
                 </InputRow>
-                <StyledInput>
+                <StyledInput pt={"12px"}>
                   <Field
                     as={TextField}
                     variant="filled"

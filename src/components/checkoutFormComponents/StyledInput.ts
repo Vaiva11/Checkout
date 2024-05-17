@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { space, SpaceProps } from "styled-system";
 
-export const StyledInput = styled.div`
+export const StyledInput = styled.div<SpaceProps>`
   padding-top: ${({ theme }) => theme.spacings.lg};
   position: relative;
   width: 100%;
@@ -12,6 +13,9 @@ export const StyledInput = styled.div`
   label {
     font-size: 14px;
     left: 4px;
+    line-height: 20px;
+    font-style: normal;
+    font-weight: 400;
   }
 
   .MuiFilledInput-root {
@@ -22,6 +26,7 @@ export const StyledInput = styled.div`
     color: ${({ theme }) => theme.colors.darkGray};
     line-height: 20px;
     border-radius: 6px;
+    height: 52px !important;
 
     &::before,
     &::after {
@@ -49,11 +54,11 @@ export const StyledInput = styled.div`
     color: ${({ theme }) => theme.colors.lightGray} !important;
 
     &.Mui-focused {
-      font-size: 12px;
+      font-size: 16px;
     }
 
     &.MuiInputLabel-shrink {
-      font-size: 12px !important;
+      font-size: 16px !important;
     }
   }
 
@@ -64,4 +69,5 @@ export const StyledInput = styled.div`
   && .MuiFilledInput-input:focus {
     background: none;
   }
+  ${space}
 `;

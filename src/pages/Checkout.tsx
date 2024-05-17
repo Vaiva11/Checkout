@@ -15,7 +15,7 @@ const PageWrapper = styled.div`
 const Grid = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 55% 45%;
+  grid-template-columns: minmax(auto, 597px) minmax(auto, 443px);
 
   @media ${device.mobile} {
     grid-template-columns: 100%;
@@ -34,12 +34,19 @@ const LeftSideWrapper = styled.div`
 `;
 
 const RightSideWrapper = styled.div`
-  padding-left: ${({ theme }) => `${theme.spacings.size3}`};
   padding-bottom: ${({ theme }) => `${theme.spacings.size1}`};
   background: ${({ theme }) => `${theme.colors.bgSummary}`};
+  width: 100%;
   @media ${device.mobile} {
     order: 1;
-    padding: ${({ theme }) => `0 ${theme.spacings.lg}`};
+    padding: 0;
+  }
+`;
+
+const SummaryWrapper = styled.div`
+  padding-left: ${({ theme }) => `${theme.spacings.size3}`};
+  @media ${device.mobile} {
+    padding: 0;
   }
 `;
 
@@ -56,12 +63,12 @@ const CheckoutWrapper = styled.div`
 `;
 
 const GrayBg = styled.div`
-  width: calc(100% - 56%);
+  width: calc(100% - 60%);
   height: 100%;
   background: ${({ theme }) => `${theme.colors.bgSummary}`};
   position: absolute;
   top: 0;
-  left: 56%;
+  left: 60%;
   z-index: -1;
 
   @media ${device.mobile} {
@@ -89,7 +96,9 @@ export const Checkout = () => (
             <CheckoutForm />
           </LeftSideWrapper>
           <RightSideWrapper>
-            <OrderSummary />
+            <SummaryWrapper>
+              <OrderSummary />
+            </SummaryWrapper>
           </RightSideWrapper>
           <WhyChooseWrapper>
             <WhyChooseSection />
