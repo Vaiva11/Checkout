@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const PageWrapperStyled = styled.div<{ hasBottomBorder: boolean }>`
   width: 100%;
+  position: relative;
   display: flex;
   justify-content: center;
   ${({ hasBottomBorder, theme }) =>

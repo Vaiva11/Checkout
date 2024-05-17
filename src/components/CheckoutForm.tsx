@@ -15,8 +15,6 @@ import { ArrowDown } from "../images/ArrowDown";
 import { BulletPoint } from "../images/BulletPoint";
 
 const LeftSection = styled.div`
-  margin-right: ${({ theme }) => `${theme.spacings.size3}`};
-  margin-bottom: ${({ theme }) => `${theme.spacings.size1}`};
   width: 100%;
   color: ${({ theme }) => `${theme.colors.darkGray}`};
 `;

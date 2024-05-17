@@ -11,9 +11,6 @@ import { CustomerService } from "../images/whyChoose/CustomerService";
 
 const PageWrapperStyled = styled.div`
   width: 100%;
-  background-color: ${({ theme }) => `${theme.colors.bgSummary}`};
-  padding-left: ${({ theme }) => `${theme.spacings.size3}`};
-  padding-bottom: ${({ theme }) => `${theme.spacings.size1}`};
 `;
 
 const ImageWrapper = styled.div`
