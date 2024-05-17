@@ -69,5 +69,10 @@ export const StyledInput = styled.div<SpaceProps>`
   && .MuiFilledInput-input:focus {
     background: none;
   }
+
+  input:-webkit-autofill {
+    background-color: white !important;
+  }
+
   ${space}
 `;

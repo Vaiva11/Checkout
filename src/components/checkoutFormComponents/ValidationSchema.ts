@@ -3,14 +3,14 @@ import * as Yup from "yup";
 export const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email is not valid").required("Required"),
   firstName: Yup.string()
-    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
+    .matches(/^[A-Za-z]+$/, "Only alphabetic characters allowed")
     .required("Required"),
   lastName: Yup.string()
-    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
+    .matches(/^[A-Za-z]+$/, "Only alphabetic characters allowed")
     .required("Required"),
   address: Yup.string().required("Required"),
   city: Yup.string()
-    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
+    .matches(/^[A-Za-z]+$/, "Only alphabetic characters allowed")
     .required("Required"),
   stateProvince: Yup.string().required("Required"),
   zip: Yup.string()
@@ -32,6 +32,6 @@ export const validationSchema = Yup.object().shape({
     .max(4, "Security code must have max 4 characters")
     .required("Required"),
   nameOnCard: Yup.string()
-    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
+    .matches(/^[A-Za-z]+$/, "Only alphabetic characters allowed")
     .required("Required"),
 });
