@@ -16,6 +16,8 @@ import { CreditCardInput } from "./checkoutFormComponents/CreditCardInput";
 import { validationSchema } from "./checkoutFormComponents/ValidationSchema";
 import { StyledInput } from "./checkoutFormComponents/StyledInput";
 import { StateType } from "./checkoutFormComponents/CountriesData";
+import useIsMobile from "../hooks/useIsMobile";
+import { FormInitialValues } from "./checkoutFormComponents/FormInitialValues";
 
 const LeftSection = styled.div`
   width: 100%;
@@ -110,104 +112,150 @@ type UserInfoType = {
   nameOnCard: string;
 };
 
-export const CheckoutForm = () => (
-  <LeftSection>
-    <Formik
-      initialValues={{
-        email: "",
-        firstName: "",
-        lastName: "",
-        address: "",
-        city: "",
-        stateProvince: "",
-        zip: "",
-        country: "UnitedStates",
-        cardNumber: "",
-        expiration: "",
-        securityCode: "",
-        nameOnCard: "",
-      }}
-      validationSchema={validationSchema}
-      onSubmit={(values: UserInfoType) => {
-        console.log(values);
-        const serializedValues = JSON.stringify(values);
-        localStorage.setItem("userInfo", serializedValues);
-      }}
-    >
-      {({ errors, touched, values }) => (
-        <FormWrapper>
-          <Section>
-            <LargeTitle>Contact</LargeTitle>
-            <StyledInput>
-              <Field
-                as={TextField}
-                variant="filled"
-                id="email"
-                name="email"
-                label="Email Address"
-              />
-              {errors.email && touched.email && <Error>{errors.email}</Error>}
-            </StyledInput>
-          </Section>
-          <Section>
-            <LargeTitle>Delivery</LargeTitle>
-            <InputRow>
+export const CheckoutForm = () => {
+  const isMobile = useIsMobile();
+  return (
+    <LeftSection>
+      <Formik
+        initialValues={FormInitialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values: UserInfoType) => {
+          console.log(values);
+          const serializedValues = JSON.stringify(values);
+          localStorage.setItem("userInfo", serializedValues);
+        }}
+      >
+        {({ errors, touched, values }) => (
+          <FormWrapper>
+            <Section>
+              <LargeTitle>Contact</LargeTitle>
               <StyledInput>
                 <Field
                   as={TextField}
                   variant="filled"
-                  id="firstName"
-                  name="firstName"
-                  label="First Name"
+                  id="email"
+                  name="email"
+                  label="Email Address"
                 />
-                {errors.firstName && touched.firstName && (
-                  <Error>{errors.firstName}</Error>
-                )}
+                {errors.email && touched.email && <Error>{errors.email}</Error>}
               </StyledInput>
+            </Section>
+            <Section>
+              <LargeTitle>Delivery</LargeTitle>
+              <InputRow>
+                <StyledInput>
+                  <Field
+                    as={TextField}
+                    variant="filled"
+                    id="firstName"
+                    name="firstName"
+                    label="First Name"
+                  />
+                  {errors.firstName && touched.firstName && (
+                    <Error>{errors.firstName}</Error>
+                  )}
+                </StyledInput>
+                <StyledInput>
+                  <Field
+                    as={TextField}
+                    variant="filled"
+                    id="lastName"
+                    name="lastName"
+                    label="Last Name"
+                  />
+                  {errors.lastName && touched.lastName && (
+                    <Error>{errors.lastName}</Error>
+                  )}
+                </StyledInput>
+              </InputRow>
               <StyledInput>
                 <Field
                   as={TextField}
                   variant="filled"
-                  id="lastName"
-                  name="lastName"
-                  label="Last Name"
+                  id="address"
+                  name="address"
+                  label="Address"
                 />
-                {errors.lastName && touched.lastName && (
-                  <Error>{errors.lastName}</Error>
+                {errors.address && touched.address && (
+                  <Error>{errors.address}</Error>
                 )}
               </StyledInput>
-            </InputRow>
-            <StyledInput>
-              <Field
-                as={TextField}
-                variant="filled"
-                id="address"
-                name="address"
-                label="Address"
-              />
-              {errors.address && touched.address && (
-                <Error>{errors.address}</Error>
+              {isMobile && (
+                <StyledInput>
+                  <Field
+                    as={TextField}
+                    variant="filled"
+                    id="city"
+                    name="city"
+                    label="City"
+                  />
+                  {errors.city && touched.city && <Error>{errors.city}</Error>}
+                </StyledInput>
               )}
-            </StyledInput>
-            <InputRow>
-              <StyledInput>
-                <Field
-                  as={TextField}
-                  variant="filled"
-                  id="city"
-                  name="city"
-                  label="City"
-                />
-                {errors.city && touched.city && <Error>{errors.city}</Error>}
-              </StyledInput>
+              <InputRow>
+                {!isMobile && (
+                  <StyledInput>
+                    <Field
+                      as={TextField}
+                      variant="filled"
+                      id="city"
+                      name="city"
+                      label="City"
+                    />
+                    {errors.city && touched.city && (
+                      <Error>{errors.city}</Error>
+                    )}
+                  </StyledInput>
+                )}
+                <StyledInput>
+                  <Field
+                    as={TextField}
+                    select
+                    variant="filled"
+                    id="stateProvince"
+                    name="stateProvince"
+                    label="State / Province"
+                    fullWidth
+                    SelectProps={{
+                      IconComponent: () => (
+                        <ArrowIconWrapper>
+                          <ArrowDown />
+                        </ArrowIconWrapper>
+                      ),
+                    }}
+                  >
+                    {statesByCountry[values.country] &&
+                      statesByCountry[values.country].map(
+                        (state: StateType) => (
+                          <MenuItem key={state.value} value={state.value}>
+                            {state.label}
+                          </MenuItem>
+                        )
+                      )}
+                  </Field>
+                  {errors.stateProvince && touched.stateProvince && (
+                    <Error>{errors.stateProvince}</Error>
+                  )}
+                </StyledInput>
+                <StyledInput>
+                  <Field
+                    as={TextField}
+                    variant="filled"
+                    id="zip"
+                    name="zip"
+                    label="ZIP / Postal Code"
+                  />
+                  {errors.zip && touched.zip && <Error>{errors.zip}</Error>}
+                </StyledInput>
+              </InputRow>
               <StyledInput>
                 <Field
                   as={TextField}
                   select
                   variant="filled"
-                  id="stateProvince"
-                  name="stateProvince"
-                  label="State / Province"
+                  id="country"
+                  name="country"
+                  label="Country"
                   fullWidth
                   SelectProps={{
                     IconComponent: () => (
@@ -217,115 +265,77 @@ export const CheckoutForm = () => (
                     ),
                   }}
                 >
-                  {statesByCountry[values.country] &&
-                    statesByCountry[values.country].map((state: StateType) => (
-                      <MenuItem key={state.value} value={state.value}>
-                        {state.label}
-                      </MenuItem>
-                    ))}
+                  {countries.map((state) => (
+                    <MenuItem key={state.value} value={state.value}>
+                      {state.label}
+                    </MenuItem>
+                  ))}
                 </Field>
-                {errors.stateProvince && touched.stateProvince && (
-                  <Error>{errors.stateProvince}</Error>
+                {errors.country && touched.country && (
+                  <Error>{errors.country}</Error>
                 )}
               </StyledInput>
-              <StyledInput>
-                <Field
-                  as={TextField}
-                  variant="filled"
-                  id="zip"
-                  name="zip"
-                  label="ZIP / Postal Code"
-                />
-                {errors.zip && touched.zip && <Error>{errors.zip}</Error>}
-              </StyledInput>
-            </InputRow>
-            <StyledInput>
-              <Field
-                as={TextField}
-                select
-                variant="filled"
-                id="country"
-                name="country"
-                label="Country"
-                fullWidth
-                SelectProps={{
-                  IconComponent: () => (
-                    <ArrowIconWrapper>
-                      <ArrowDown />
-                    </ArrowIconWrapper>
-                  ),
-                }}
-              >
-                {countries.map((state) => (
-                  <MenuItem key={state.value} value={state.value}>
-                    {state.label}
-                  </MenuItem>
-                ))}
-              </Field>
-              {errors.country && touched.country && (
-                <Error>{errors.country}</Error>
-              )}
-            </StyledInput>
-          </Section>
-          <Section>
-            <LargeTitle>Payments</LargeTitle>
-            <XsBody mt={2} variant="lightGray">
-              All transactions are secure and encrypted.
-            </XsBody>
-            <PaymentMethods />
-            <GrayInputWrapper>
-              <StyledInput>
-                <CreditCardInput name="cardNumber" label="Card number" />
-                {errors.cardNumber && touched.cardNumber && (
-                  <Error>{errors.cardNumber}</Error>
-                )}
-              </StyledInput>
-              <InputRow>
+            </Section>
+            <Section>
+              <LargeTitle>Payments</LargeTitle>
+              <XsBody mt={2} variant="lightGray">
+                All transactions are secure and encrypted.
+              </XsBody>
+              <PaymentMethods />
+              <GrayInputWrapper>
                 <StyledInput>
-                  <ExpirationDateInput
-                    name="expiration"
-                    label="Expiration (MM/YY)"
-                  />
-                  {errors.expiration && touched.expiration && (
-                    <Error>{errors.expiration}</Error>
+                  <CreditCardInput name="cardNumber" label="Card number" />
+                  {errors.cardNumber && touched.cardNumber && (
+                    <Error>{errors.cardNumber}</Error>
                   )}
                 </StyledInput>
+                <InputRow>
+                  <StyledInput>
+                    <ExpirationDateInput
+                      name="expiration"
+                      label="Expiration (MM/YY)"
+                    />
+                    {errors.expiration && touched.expiration && (
+                      <Error>{errors.expiration}</Error>
+                    )}
+                  </StyledInput>
+                  <StyledInput>
+                    <Field
+                      as={TextField}
+                      variant="filled"
+                      id="securityCode"
+                      name="securityCode"
+                      label="Security code"
+                    />
+                    {errors.securityCode && touched.securityCode && (
+                      <Error>{errors.securityCode}</Error>
+                    )}
+                  </StyledInput>
+                </InputRow>
                 <StyledInput>
                   <Field
                     as={TextField}
                     variant="filled"
-                    id="securityCode"
-                    name="securityCode"
-                    label="Security code"
+                    id="nameOnCard"
+                    name="nameOnCard"
+                    label="Name on card"
                   />
-                  {errors.securityCode && touched.securityCode && (
-                    <Error>{errors.securityCode}</Error>
+                  {errors.nameOnCard && touched.nameOnCard && (
+                    <Error>{errors.nameOnCard}</Error>
                   )}
                 </StyledInput>
-              </InputRow>
-              <StyledInput>
-                <Field
-                  as={TextField}
-                  variant="filled"
-                  id="nameOnCard"
-                  name="nameOnCard"
-                  label="Name on card"
-                />
-                {errors.nameOnCard && touched.nameOnCard && (
-                  <Error>{errors.nameOnCard}</Error>
-                )}
-              </StyledInput>
-            </GrayInputWrapper>
-            <SubmitButton type="submit">complete order</SubmitButton>
-            <DisclaimerWrapper>
-              <Lock />
-              <SmBody variant="lightGray">
-                All transactions are secure and encrypted
-              </SmBody>
-            </DisclaimerWrapper>
-          </Section>
-        </FormWrapper>
-      )}
-    </Formik>
-  </LeftSection>
-);
+              </GrayInputWrapper>
+              <SubmitButton type="submit">complete order</SubmitButton>
+              <DisclaimerWrapper>
+                <Lock />
+                <SmBody variant="lightGray">
+                  All transactions are secure and encrypted
+                </SmBody>
+              </DisclaimerWrapper>
+            </Section>
+          </FormWrapper>
+        )}
+      </Formik>
+    </LeftSection>
+  );
+};

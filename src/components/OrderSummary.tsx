@@ -5,6 +5,7 @@ import { WhyChooseSection } from "./orderSummaryComponents/WhyChooseSection";
 import { device } from "../theme/Device";
 import { ArrowDown } from "../images/ArrowDown";
 import { Price } from "./orderSummaryComponents/Price";
+import useIsMobile from "../hooks/useIsMobile";
 
 const PageWrapperStyled = styled.div<{ isOverviewOpen: boolean }>`
   width: 100%;
@@ -51,18 +52,8 @@ const OverviewButton = styled.div<{ isOverviewOpen: boolean }>`
 `;
 
 export const OrderSummary = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 770);
+  const isMobile = useIsMobile();
   const [isOverviewOpen, setIsOverviewOpen] = useState(true);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
     <PageWrapperStyled isOverviewOpen={isOverviewOpen}>
