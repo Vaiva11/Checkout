@@ -9,9 +9,11 @@ const HeaderWrapper = styled.div`
   padding: ${({ theme }) => `${theme.spacings.lg}`} 0;
   display: flex;
   justify-content: space-between;
+  margin: ${({ theme }) => `0 ${theme.spacings.lg}`};
 
   @media ${device.mobile} {
     padding: ${({ theme }) => `${theme.spacings.lg}`};
+    margin: 0;
     svg {
       height: 24px;
       width: auto;

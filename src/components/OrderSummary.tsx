@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { SmBody } from "../components/Typography";
-import { WhyChooseSection } from "../components/WhyChooseSection";
+import { WhyChooseSection } from "./OrderSummaryComponents/WhyChooseSection";
 import { device } from "../theme/Device";
 import { ArrowDown } from "../images/ArrowDown";
-import { Price } from "../components/Price";
+import { Price } from "./OrderSummaryComponents/Price";
 
-const PageWrapperStyled = styled.div`
+const PageWrapperStyled = styled.div<{ isOverviewOpen: boolean }>`
   width: 100%;
   @media ${device.mobile} {
-    border-bottom: ${({ theme }) => `solid 1px ${theme.colors.borderDivider}`};
-    margin-bottom: ${({ theme }) => `${theme.spacings.lg}`};
+    ${({ isOverviewOpen, theme }) =>
+      isOverviewOpen &&
+      `
+        border-bottom: solid 1px ${theme.colors.borderDivider}};
+        margin-bottom: ${theme.spacings.lg}};
+    `};
   }
 `;
 
@@ -48,7 +52,7 @@ const OverviewButton = styled.div<{ isOverviewOpen: boolean }>`
 
 export const OrderSummary = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 770);
-  const [isOverviewOpen, setIsOverviewOpen] = useState(isMobile);
+  const [isOverviewOpen, setIsOverviewOpen] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -61,9 +65,9 @@ export const OrderSummary = () => {
   }, []);
 
   return (
-    <PageWrapperStyled>
+    <PageWrapperStyled isOverviewOpen={isOverviewOpen}>
       {isMobile && (
-        <Row hasBottomBorder>
+        <Row>
           <OverviewButton
             onClick={() => setIsOverviewOpen(!isOverviewOpen)}
             isOverviewOpen={isOverviewOpen}

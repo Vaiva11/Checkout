@@ -3,7 +3,7 @@ import { Header } from "../components/Header";
 import { CheckoutForm } from "../components/CheckoutForm";
 import { OrderSummary } from "../components/OrderSummary";
 import { device } from "../theme/Device";
-import { WhyChooseSection } from "../components/WhyChooseSection";
+import { WhyChooseSection } from "../components/OrderSummaryComponents/WhyChooseSection";
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -19,6 +19,7 @@ const Grid = styled.div`
 
   @media ${device.mobile} {
     grid-template-columns: 100%;
+    background: ${({ theme }) => `${theme.colors.bgSummary}`};
   }
 `;
 
@@ -28,8 +29,7 @@ const LeftSideWrapper = styled.div`
   border-right: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
   @media ${device.mobile} {
     order: 2;
-    padding: ${({ theme }) => `${theme.spacings.lg}`};
-    padding-top: 0;
+    padding: 0;
   }
 `;
 
@@ -48,9 +48,10 @@ const CheckoutWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   color: ${({ theme }) => `${theme.colors.darkGray}`};
+  margin: ${({ theme }) => `0 ${theme.spacings.lg}`};
 
   @media ${device.mobile} {
-    background: pink;
+    margin: 0;
   }
 `;
 
@@ -74,6 +75,7 @@ const WhyChooseWrapper = styled.div`
     display: block;
     order: 3;
     padding: ${({ theme }) => `${theme.spacings.lg}`};
+    padding-top: 0;
   }
 `;
 
@@ -90,7 +92,6 @@ export const Checkout = () => (
             <OrderSummary />
           </RightSideWrapper>
           <WhyChooseWrapper>
-            {" "}
             <WhyChooseSection />
           </WhyChooseWrapper>
         </Grid>

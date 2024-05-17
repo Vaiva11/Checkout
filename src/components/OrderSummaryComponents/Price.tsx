@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { SmBody, MediumTitle } from "./Typography";
-import { device } from "../theme/Device";
+import { SmBody, MediumTitle } from "../Typography";
+import { device } from "../../theme/Device";
 
 const ImageWrapper = styled.div`
   position: relative;

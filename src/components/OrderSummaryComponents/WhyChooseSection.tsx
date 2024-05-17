@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { SmBody, XsBody, XsBodyDark } from "../components/Typography";
-import { CashBack } from "../images/whyChoose/CashBack";
-import { Fame } from "../images/whyChoose/Fame";
-import { CustomerService } from "../images/whyChoose/CustomerService";
+import { SmBody, XsBody } from "../Typography";
+import { CashBack } from "../../images/whyChoose/CashBack";
+import { Fame } from "../../images/whyChoose/Fame";
+import { CustomerService } from "../../images/whyChoose/CustomerService";
 
 const WhyChooseWrapper = styled.div`
   display: flex;
@@ -45,8 +45,10 @@ export const WhyChooseSection = () => (
         <CashBack />
       </div>
       <div>
-        <XsBodyDark mb={2}>90-Day Money Back Guarantee</XsBodyDark>
-        <XsBody>
+        <XsBody fontWeight={700} mb={2}>
+          90-Day Money Back Guarantee
+        </XsBody>
+        <XsBody variant="mediumGray">
           We love our products and we're confident you will too! If you're not
           in love with your LogoIpsum product, our easy return and refund policy
           is designed to make things as easy as possible for you.
@@ -58,8 +60,10 @@ export const WhyChooseSection = () => (
         <Fame />
       </div>
       <div>
-        <XsBodyDark mb={2}>Over 75,000+ Happy Customer</XsBodyDark>
-        <XsBody>
+        <XsBody fontWeight={700} mb={2}>
+          Over 75,000+ Happy Customer
+        </XsBody>
+        <XsBody variant="mediumGray">
           Everyone that tries LogoIpsum says it’s a must-have. We invest a lot
           of love and care into making our products, so you can enjoy seeing
           results when using it.
@@ -71,8 +75,10 @@ export const WhyChooseSection = () => (
         <CustomerService />
       </div>
       <div>
-        <XsBodyDark mb={2}>Professional Customer Support</XsBodyDark>
-        <XsBody>
+        <XsBody fontWeight={700} mb={2}>
+          Professional Customer Support
+        </XsBody>
+        <XsBody variant="mediumGray">
           Our customer service works 24/7 for your satisfaction. Feel free to
           reach out to us anytime.
         </XsBody>

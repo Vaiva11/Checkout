@@ -13,6 +13,7 @@ import { Amex } from "../images/paymentMehtods/Amex";
 import { DinersClub } from "../images/paymentMehtods/DinersClub";
 import { ArrowDown } from "../images/ArrowDown";
 import { BulletPoint } from "../images/BulletPoint";
+import { device } from "../theme/Device";
 
 const LeftSection = styled.div`
   width: 100%;
@@ -25,6 +26,14 @@ const FormWrapper = styled(Form)`
 
 const Section = styled.div`
   padding-top: ${({ theme }) => `${theme.spacings.size2}`};
+  background: white;
+
+  @media ${device.mobile} {
+    margin-bottom: ${({ theme }) => `${theme.spacings.lg}`};
+    padding: ${({ theme }) => `${theme.spacings.lg}`};
+    border-top: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
+    border-bottom: solid 1px ${({ theme }) => `${theme.colors.borderDivider}`};
+  }
 `;
 
 const Input = styled.div`
@@ -80,8 +89,8 @@ const Input = styled.div`
   }
 
   .MuiInputLabel-root {
+    color: ${({ theme }) => `${theme.colors.lightGray}`} !important;
     &.Mui-focused {
-      color: ${({ theme }) => `${theme.colors.lightGray}`} !important;
       font-size: 12px;
     }
 
@@ -112,6 +121,12 @@ const SubmitButton = styled.button`
   box-shadow: 0px 4px 10px 0px rgba(67, 40, 16, 0.24);
   letter-spacing: 1.26px;
   cursor: pointer;
+
+  @media ${device.mobile} {
+    padding: ${({ theme }) => `${theme.spacings.md} ${theme.spacings.size2}`};
+    font-size: ${({ theme }) => theme.fontSizes.smBody};
+    letter-spacing: 0.98px;
+  }
 `;
 
 const DisclaimerWrapper = styled.div`
@@ -470,7 +485,9 @@ export const CheckoutForm = () => (
           </Section>
           <Section>
             <LargeTitle>Payments</LargeTitle>
-            <XsBody mt={2}>All transactions are secure and encrypted.</XsBody>
+            <XsBody mt={2} variant="lightGray">
+              All transactions are secure and encrypted.
+            </XsBody>
             <PaymentMethod>
               <BulletPointWrapper>
                 <BulletPoint />
@@ -537,12 +554,14 @@ export const CheckoutForm = () => (
                 )}
               </Input>
             </GrayInputWrapper>
+            <SubmitButton type="submit">complete order</SubmitButton>
+            <DisclaimerWrapper>
+              <Lock />
+              <SmBody variant="lightGray">
+                All transactions are secure and encrypted
+              </SmBody>
+            </DisclaimerWrapper>
           </Section>
-          <SubmitButton type="submit">complete order</SubmitButton>
-          <DisclaimerWrapper>
-            <Lock />
-            <SmBody isLight>All transactions are secure and encrypted</SmBody>
-          </DisclaimerWrapper>
         </FormWrapper>
       )}
     </Formik>
