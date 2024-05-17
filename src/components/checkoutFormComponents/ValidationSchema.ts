@@ -31,5 +31,7 @@ export const validationSchema = Yup.object().shape({
     .min(3, "Security code must at least 3 characters")
     .max(4, "Security code must have max 4 characters")
     .required("Required"),
-  nameOnCard: Yup.string().required("Required"),
+  nameOnCard: Yup.string()
+    .matches(/^[a-z]+$/, "Only alphabetic characters allowed")
+    .required("Required"),
 });
