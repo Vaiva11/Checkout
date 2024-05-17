@@ -1,13 +1,15 @@
 import { useFormikContext } from "formik";
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
+import { InputProps, FormValues } from "./types";
 
-export const ExpirationDateInput = ({ name, label }: any) => {
-  const { values, setFieldValue } = useFormikContext();
-  //@ts-ignore
-  const [formattedValue, setFormattedValue] = useState(values[name]);
+export const ExpirationDateInput = ({ name, label }: InputProps) => {
+  const { setFieldValue, values } = useFormikContext<FormValues>();
+  const [formattedValue, setFormattedValue] = useState<string>(
+    values[name] || ""
+  );
 
-  const handleInputChange = (event: any) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     let formattedInputValue = inputValue.replace(/\D/g, "");
     if (formattedInputValue.length > 2) {

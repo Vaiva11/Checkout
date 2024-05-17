@@ -1,8 +1,9 @@
 import { useFormikContext } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
+import { InputProps, FormValues } from "./types";
 
-const formatCreditCardNumber = (inputValue: any) => {
+const formatCreditCardNumber = (inputValue: string) => {
   if (typeof inputValue !== "undefined" && inputValue !== null) {
     const numericValue = inputValue.replace(/\D/g, "");
     const formattedValue = numericValue.replace(/(\d{4})/g, "$1 ").trim();
@@ -11,14 +12,17 @@ const formatCreditCardNumber = (inputValue: any) => {
   return "";
 };
 
-export const CreditCardInput = ({ name, label }: any) => {
-  const { values, setFieldValue } = useFormikContext();
-  const [formattedValue, setFormattedValue] = useState(
-    //@ts-ignore
+export const CreditCardInput: React.FC<InputProps> = ({ name, label }) => {
+  const { setFieldValue, values } = useFormikContext<FormValues>();
+  const [formattedValue, setFormattedValue] = useState<string>(
     formatCreditCardNumber(values[name])
   );
 
-  const handleInputChange = (event: any) => {
+  useEffect(() => {
+    setFormattedValue(formatCreditCardNumber(values[name]));
+  }, [values[name]]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     const formattedInputValue = formatCreditCardNumber(inputValue);
     setFormattedValue(formattedInputValue);

@@ -15,6 +15,7 @@ import {
 import { CreditCardInput } from "./checkoutFormComponents/CreditCardInput";
 import { validationSchema } from "./checkoutFormComponents/ValidationSchema";
 import { StyledInput } from "./checkoutFormComponents/StyledInput";
+import { StateType } from "./checkoutFormComponents/CountriesData";
 
 const LeftSection = styled.div`
   width: 100%;
@@ -129,6 +130,8 @@ export const CheckoutForm = () => (
       validationSchema={validationSchema}
       onSubmit={(values: UserInfoType) => {
         console.log(values);
+        const serializedValues = JSON.stringify(values);
+        localStorage.setItem("userInfo", serializedValues);
       }}
     >
       {({ errors, touched, values }) => (
@@ -215,7 +218,7 @@ export const CheckoutForm = () => (
                   }}
                 >
                   {statesByCountry[values.country] &&
-                    statesByCountry[values.country].map((state: any) => (
+                    statesByCountry[values.country].map((state: StateType) => (
                       <MenuItem key={state.value} value={state.value}>
                         {state.label}
                       </MenuItem>
