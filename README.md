@@ -1,4 +1,4 @@
-# Rock and Morty project
+# Checkout project
 
 _This project uses the Yarn package manager. Please install it if you don't already have it on your computer. Installation guide: https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable_
 <br><br>
