@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { SmBody, MediumTitle } from "../Typography";
 import { device } from "../../theme/Device";
+import useIsMobile from "../../hooks/useIsMobile";
 
 const ImageWrapper = styled.div`
   position: relative;
@@ -55,27 +56,31 @@ const Row = styled.div<{ hasbottomborder?: boolean }>`
   }
 `;
 
-export const Price = () => (
-  <PriceWrapper>
-    <Row hasbottomborder>
-      <Product>
-        <ImageWrapper>
-          <img src="/images/product.png" alt="product" />
-          <ProductsNumber>3</ProductsNumber>
-        </ImageWrapper>
-        <SmBody fontWeight={700} ml={3}>
-          LogoIpsum IPL
-        </SmBody>
-      </Product>
-      <SmBody fontWeight={500}>$299.97</SmBody>
-    </Row>
-    <Row hasbottomborder>
-      <SmBody>Subtotal</SmBody>
-      <SmBody>$299.97</SmBody>
-    </Row>
-    <Row hasbottomborder>
-      <MediumTitle>Total</MediumTitle>
-      <MediumTitle>$299.97</MediumTitle>
-    </Row>
-  </PriceWrapper>
-);
+export const Price = () => {
+  const isMobile = useIsMobile();
+
+  return (
+    <PriceWrapper>
+      <Row hasbottomborder>
+        <Product>
+          <ImageWrapper>
+            <img src="/images/product.png" alt="product" />
+            <ProductsNumber>3</ProductsNumber>
+          </ImageWrapper>
+          <SmBody fontWeight={700} ml={3}>
+            LogoIpsum IPL
+          </SmBody>
+        </Product>
+        <SmBody fontWeight={500}>$299.97</SmBody>
+      </Row>
+      <Row hasbottomborder>
+        <SmBody>Subtotal</SmBody>
+        <SmBody>$299.97</SmBody>
+      </Row>
+      <Row hasbottomborder={isMobile}>
+        <MediumTitle>Total</MediumTitle>
+        <MediumTitle>$299.97</MediumTitle>
+      </Row>
+    </PriceWrapper>
+  );
+};
